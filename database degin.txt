@@ -1,0 +1,17 @@
+php artisan make:model Product -mcr
+php artisan make:model Category -mcr
+php artisan make:model Brand-mcr
+php artisan make:model Cart -mcr
+php artisan make:model Blog -mcr
+php artisan make:model Dashboard -mcr
+php artisan make:model Adminitrator -mcr
+php artisan make:model Store -mcr
+php artisan make:model Order -mcr
+php artisan make:model Shipping -mcr
+php artisan make:model Payment -mcr
+php artisan make:model Location -mcr
+php artisan make:model Email -mcr 
+php artisan make:model Discount -mcr
+php artisan make:model SEO -mcr
+php artisan make:model Unit-mcr
+

@@ -1,0 +1,90 @@
+1st Featured --top level domain
+2nd ---Business Logo
+3rd ----User Friendly Navigation
+4th ----Wishlist
+5th ----Customer Login
+6th ----Store Finder
+7th ----Language
+8th --- Shopping Cart
+9th --- Search Functionality
+10 -----Hotline Number
+11------Risk Reducer
+12------CTA Programmer
+13---lowerty program
+14---- Featured Product
+15----Personalized item
+16----Text Content
+17----FAQ
+18----Terms And Condition
+19----Privacy & Policy
+20 --- Contact Us
+21 --- News letter SignUp
+22---- Payment Method Graphic
+23---- Social Media
+24---- About US
+25---- Site Map
+26---- Live Chat
+
+Product Category Feature: 
+
+27---- Bread crumb navigation
+28 ----Consistance image size
+29-----Product Count Under Category
+30-----Filtering 
+31-----Page Description
+
+Product Page Feature List: 
+
+32-----Product Title
+33-----Image With Zoom Functionality
+34-----Product Prize Information
+35-----Product Prize Potential Sale Or Discount
+36-----A fieldt to change Purchase Quantity
+37-----Product Variables
+38-----Add To Cart
+39-----Wishlist
+40-----Compare Button
+41-----Product Description
+42-----Product Share Button
+43-----Customer Review Option
+44-----Print Product Specification
+45-----Related Product
+
+Shopping Cart:
+
+46-----Payment Method
+47-----Final Price 
+48-----Shipping Method
+49-----Coupon Code
+50-----Cart Quantity Update Option
+51-----Cart Option Save For Later
+
+E-Commerce Blog:
+
+52: Popular Post
+53: Categories 
+54: Share Option
+
+Back End Feature List:
+
+55----Dashboard Option
+56----Adminitrator Management
+57----Customer Management
+58----Store Management
+59----Content Management
+60----Order Management
+61----Shipping Management
+62-----Payment Mangement
+63-----Location Mangement
+64-----Email Marketing Integration
+65-----Discount Management
+66-----SEO Management
+67-----Trucking Code Integration
+68-----Responsive Design
+69-----Fast Loading
+70-----Browser Compativility
+71-----Multilevel Security
+72-----Database Backup
+
+
+
