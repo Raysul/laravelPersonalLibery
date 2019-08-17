@@ -245,7 +245,7 @@ laravel image intervention
 /*
     !image show
 */
-    {{ --@foreach($result->imageas$images)
+    {{ --@foreach($result->image as $images)
 <imgstyle="width:60px"src="asset("image/product")/$images->image"alt="ProductImage"class="img-thumbnail">
 @endforeach-- }}
        
