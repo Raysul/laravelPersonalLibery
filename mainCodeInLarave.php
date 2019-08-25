@@ -1,4 +1,15 @@
 <?php
+/*
+ !github theke project instriling
+*/
+ 
+git clone https://github.com/w3programmers/Laravel-E-commerce-Part-3.git
+cd Laravel-E-commerce-Part-3
+composer install
+php artisan key:generate
+php artisan serve
+
+
  /*
 !start route code
 */
@@ -40,6 +51,12 @@ public function boot()
     Schema::defaultStringLength(191);
 
 }
+
+{{-- select optoin update  --}}
+<script type="text/javascript">
+    document.forms['editForm'].elements['publicationStatus'].value='{{ $Category->publicationStatus }}';
+</script>
+
 /*
 !massages route code
 */
@@ -222,6 +239,15 @@ laravel image intervention
                 $prduct_image->image = $img;
                 $prduct_image->save();
             }
+        }
+		
+	  if ( $request->image )
+        {
+            $image = $request->file('image');
+            $img = time() . '.' . $image->getClientOriginalExtension();
+            $location = public_path('image/categoryImage/' . $img);
+            Image::make($image)->save($location);
+            $Category->image = $img;
         }
 /*
     !image relationshif
