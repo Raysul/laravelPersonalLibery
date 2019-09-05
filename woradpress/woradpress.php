@@ -53,11 +53,35 @@ add_action("wp_enqueue_scripts", "alpha_asset");
     if (has_post_thumbnail()) {
         the_post_thumbnail("large", array("class" => "img-fluid"));
     }
-?>
 
+    <a href="<?php the_permalink(); ?>"> <?php the_title(); ?>
+
+
+    // !read more function
+    <?php
+    if (is_single()) {
+        the_content();
+    } else {
+        the_excerpt();
+    }
+    ?>
+
+
+    ?>
     //!pagination
     <?php the_posts_pagination(array(
         "screen_reader_text" => " ",
         'prev_text'          => __('New Post'),
         'next_text'          => __('Old Post'),
     )); ?>
+
+    // !comment thempalte
+    <?php comments_template() ?>
+
+
+    <?php if(comments_open()): ?>
+    <div class="col-md-8">
+        <?php comments_template() ?>
+    </div>
+
+    ?>

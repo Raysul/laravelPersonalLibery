@@ -9,6 +9,14 @@ composer install
 php artisan key:generate
 php artisan serve
 
+// !Admin or Frontend 
+namespace App\Http\Controllers\Admin;
+
+use App\Models\Category;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Image;
+use File;
 
  /*
 !start route code
@@ -33,9 +41,14 @@ Route::delete('/{student}', "studentController@destroy")->name("student.destroy"
 /*
 !form route code
 */
+{!! Form::open(array('url' => '/category/save', 'method' => "post", 'role' => 'form')) !!}
+<!-- {!! Form::open(array('url' => 'category/save')) !!} -->
+
 <form action="{{ route('product.store') }}" enctype="multipart/form-data"  method="POST">
 <form action="{{ route('product.update', $Product->id) }}" enctype="multipart/form-data" name="editForm"  method="POST">
 @csrt
+
+<input type="text" name="title" class="form-control" value="{{ old('title', $Product->title ?? '') }}">
 
 <td class="row-actions">
 <a data-toggle="tooltip" title="Update Data!" href="{{ route('brand.edit') }}"><i class="os-icon os-icon-ui-49"></i></a>
@@ -57,6 +70,21 @@ public function boot()
     document.forms['editForm'].elements['publicationStatus'].value='{{ $Category->publicationStatus }}';
 </script>
 
+
+// !or
+<tr>
+        <td> Satatus: </td>
+        <td>
+            <label for="">Disabled select menu</label>
+            <select name="status" class="form-control">
+                <option value="">Select Status</option>
+                <option value="1" {{ $customar->status == "1" ? "selected" : "" }}>actiove</option>
+                <option value="0" {{ $customar->status == "0" ? "selected" : "" }}>Inactiove</option>
+
+                {{ $errors->first('status') }}
+         </td>
+    </tr>
+    
 /*
 !massages route code
 */
@@ -112,6 +140,51 @@ class CategoryController extends Controller
         return view("admin.category.index", compact('Category'));
     }
 
+    // !or
+    public function list(){
+        $activeCustomar = customar::where("status", 0)->get();
+        $unactive = customar::where("status", 1)->get();
+    
+            // return view("contuce", ["activeCustomar" => $activeCustomar, "unactive" => $unactive ]);
+            return view("contuce", compact("activeCustomar", "unactive"));
+        }
+
+    // !or
+    public function list(){
+        $activeCustomar = customar::active()->get();
+        $unactive = customar::Inactive()->get();
+        $compacts = Company::all();
+    
+            // return view("contuce", ["activeCustomar" => $activeCustomar, "unactive" => $unactive ]);
+            return view("contuce", compact("activeCustomar", "unactive", "compacts"));
+        }
+        
+    // !or
+    
+class customar extends Model
+{
+    public function scopeActive($query){
+        return $query->where("status", 0);
+    }
+
+    public function scopeInactive($query){
+        return $query->where("status", 1);
+    }
+
+}
+
+// !or
+
+public function show(customar $customar){
+    //  !$customar = customar::find($customar);
+
+    // !dd($customar);
+    return view("showAllCustomar", compact("customar"));
+    // !return view("showAllCustomar", ['customar' => $customar]);
+
+
+}
+
     /**
      * Show the form for creating a new resource.
      *
@@ -141,16 +214,37 @@ class CategoryController extends Controller
        return redirect()->route('category.create')->with("msg", "Category insert successfully");
     }
 
+// !or 
+protected $guarded = [];
+protected $fillable = ["name", "email", "status"];
+
+public function store()
+{
+    student::create($this->validation());
+
+    return redirect()->route('student.create')->with("msg", "Data insert successfully");
+}
+
+public function vitidation(){
+    return request()->validate([
+         "name" => "required|min:3",
+         "email" => "required|email",
+         "compaint_id" => "required",
+         "status" => "required"
+     ]);
+ }
     /**
      * Display the specified resource.
      *
      * @param  \App\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function show(Category $category)
-    {
-        //
-    }
+     public function show($slug)
+     {
+         $show = Product::where('slug', $slug)->first();
+         return view('frontend.pages.show', compact('show'));
+         return $show;
+     }
 
     /**
      * Show the form for editing the specified resource.
@@ -163,6 +257,38 @@ class CategoryController extends Controller
         $Category = Category::find($category);
         return view("admin.category.edit", compact('Category'));
     }
+
+    // !or
+    // update data cat
+    public function editeCat($id){
+        $Categorys = Category::where("id", $id)->first();
+        return view("admin.category.editCategory",['Category' => $Categorys]);
+    }
+
+    // !or
+    public function update(Request $request){
+    $category = Category::find($request->categoryId);
+
+    $category->categoryName = $request->categoryName;
+    $category->shortDesc = $request->shortDesc;
+    $category->shortDesc = $request->shortDesc;
+    $category->publicationStatus = $request->publicationStatus;
+
+
+    $category->save();
+
+    return redirect()->route('mamageCat')->with("msg", "Category Update successfully.");
+
+}
+
+// !or 
+public function update(student $student)
+{
+    $student->update($this->validation());
+
+    return redirect()->route('student.create')->with("msg", "Data insert successfully");
+}
+
 
     /**
      * Update the specified resource in storage.
@@ -196,6 +322,20 @@ class CategoryController extends Controller
         return back();
     }
 }
+
+// !or
+<form action="students/{{ $result->id }}" method="POST">
+    @method("DELETE")
+@csrf
+
+<button type="submit"> Delete</button>
+</form>
+
+public function destroy(student $student)
+{
+   $student->delete();
+}
+
 /*
     !image upload
 */
@@ -204,7 +344,8 @@ laravel image intervention
 	 composer require intervention/image
 	 
 	 //inclue
-	 use Image;
+     use Image;
+     use File;
 	 Intervention\Image\ImageServiceProvider::class
      'Image' => Intervention\Image\Facades\Image::class
      
@@ -249,6 +390,64 @@ laravel image intervention
             Image::make($image)->save($location);
             $Category->image = $img;
         }
+
+// !image update 
+public function update(Request $request, $category)
+    {
+        $request->validate([
+            'catName' => 'bail|required|max:255',
+            'fullDesc' => 'bail|required|max:255',
+        ]);
+
+        $Category = Category::find($category);
+        $Category->catName = $request->catName;
+        $Category->parent_id = $request->parent_id;
+        $Category->fullDesc = $request->fullDesc;
+
+        if ($request->image) {
+
+            if (File::exists('image/categoryImage/' . $Category->image)) {
+                File::delete('image/categoryImage/' . $Category->image);
+            }
+
+            $image = $request->file('image');
+            $img = time() . '.' . $image->getClientOriginalExtension();
+            $location = public_path('image/categoryImage/' . $img);
+            Image::make($image)->save($location);
+            $Category->image = $img;
+        }
+
+        $Category->update();
+        return back()->with("msg", "Category insert successfully");
+    }
+    
+// !delete image 
+public function destroy($category)
+{
+    $Category = Category::find($category);
+    if (!is_null($Category)) {
+        //! If it is Parent Category, Then We will Delete all it's Sub Category
+        if ($Category->parent_id == NULL) {
+            //! Delete Sub Categories
+            $sub_categories = Category::orderBy('catName', 'asc')->where('parent_id', $Category->id)->get();
+
+            foreach ($sub_categories as $sub) {
+                if (File::exists('image/categoryImage/' . $sub->image)) {
+                    File::delete('image/categoryImage/' . $sub->image);
+                }
+                $sub->delete();
+            }
+        }
+
+        if (File::exists('image/categoryImage/' . $Category->image)) {
+            File::delete('image/categoryImage/' . $Category->image);
+        }
+
+        $Category->delete();
+    }
+    return back();
+}
+        
 /*
     !image relationshif
 */
@@ -260,11 +459,11 @@ laravel image intervention
         return $this->belongsTo(Brand::class, 'brandId');
     }
 
-    public function image(){
+    public function images(){
         return $this->hasOne(productImage::class, 'productId');
     }
 
-    // public function image(){
+    // public function images(){
     //     return $this->hasMany(productImage::class, 'productId');
     // }
 

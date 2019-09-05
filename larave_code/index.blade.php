@@ -224,6 +224,8 @@ public function manage(){
 }
 
 {{--  join table  --}} 
+$Product = Product::with('category', 'brand', 'image')->get();
+
 public function viewAllProduct(){
     $prducts = DB::table('products')
     ->join("categories","categories.id", "=", "category")
