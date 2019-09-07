@@ -84,4 +84,54 @@ add_action("wp_enqueue_scripts", "alpha_asset");
         <?php comments_template() ?>
     </div>
 
+
+    // !header part and footer
+    <?php get_header(); ?>
+    <?php get_template_part('hero'); ?>
+    <?php get_footer(); ?>
+
+    // !site ulr or real pathe
+    <?php echo site_url() ?>">
+
+    // !single page post
+    <?php next_post_link(); ?>
+    <?php echo "<br>"; ?>
+    <?php previous_post_link(); ?>
+
+    // !id - Sidebar id - Must be all in lowercase
+
+    // !sidebar function make
+    // !sidebar ragistaion
+    function alpha_sidebar() {
+    register_sidebar( array(
+    'name' => __( 'Right Sidebar', 'theme-slug' ),
+    'id' => 'sidebar-1',
+    'class' => '',
+    'description' => __( 'Widgets in this area will be shown on all posts and pages.', 'theme-slug' ),
+    'before_widget' => '<li id="%1$s" class="widget %2$s">',
+        'after_widget' => '</li>',
+    'before_title' => '<h2 class="widgettitle">',
+        'after_title' => '</h2>',
+    ) );
+    }
+    add_action('widgets_init', 'alpha_sidebar');
+
+    // !show sidebar code
+    <?php
+    if (is_active_sidebar('sidebar-1')) {
+        dynamic_sidebar('sidebar-1');
+    }
+    ?>
+
+    // !post passworad protected
+
+    <?php 
+    if(!post_password_required()){
+        the_excerpt(); 
+    }else{
+      echo get_the_password_form();
+    }
+    
+     ?>
+
     ?>

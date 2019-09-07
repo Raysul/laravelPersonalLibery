@@ -508,3 +508,29 @@ public function destroy($category)
        </div>
    </div>
 </div>
+
+
+// !sldebar show
+
+@foreach ( App\Models\Category::orderBy('catName', 'DESC')->where('parent_id', NULL)->get() as $parent )
+<li class="menu-item-has-children arrow item-megamenu">
+<a href="#" class="dropdown-toggle">{{ $parent->catName }}</a>
+   <span class="toggle-submenu hidden-md"></span>
+   <div class="submenu parent-megamenu megamenu">
+        <div class="submenu-banner submenu-banner-menu-1">
+            <div class="col-md-4">
+                <div class="dropdown-menu-info">
+                    <h6 class="dropdown-menu-title">{{ $parent->catName }}</h6>
+                    <div class="dropdown-menu-content">
+                        <ul class="menu">
+                            @foreach ( App\Models\Category::orderBy('catName', 'DESC')->where('parent_id', $parent->id)->get() as $child )  
+                                <li class="menu-item"><a href="#">{{ $child->catName }}</a></li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</li>
+@endforeach
